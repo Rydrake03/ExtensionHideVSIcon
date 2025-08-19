@@ -5,14 +5,14 @@ const fs = require('fs');
 let isExtensionActive = false;
 
 /**
- * Attiva l'estensione
+ * Activates the extension
  * @param {vscode.ExtensionContext} context 
  */
 function activate(context) {
-    console.log('HideVsIcon extension è ora attiva!');
+    console.log('HideVsIcon extension is now active!');
     isExtensionActive = true;
     
-    // Registra i comandi
+    // Register commands
     const hideCommand = vscode.commands.registerCommand('hidevsicon.hide', () => {
         hideVSCodeIcon();
     });
@@ -20,21 +20,17 @@ function activate(context) {
     const showCommand = vscode.commands.registerCommand('hidevsicon.show', () => {
         showVSCodeIcon();
     });
-    
-    const toggleCommand = vscode.commands.registerCommand('hidevsicon.toggle', () => {
-        toggleVSCodeIcon();
-    });
 
-    // Listener per i cambiamenti delle impostazioni
+    // Listener for configuration changes
     const configListener = vscode.workspace.onDidChangeConfiguration(event => {
         if (event.affectsConfiguration('hideVSCodeIcon.enabled')) {
             updateIconVisibility();
         }
     });
     
-    context.subscriptions.push(hideCommand, showCommand, toggleCommand, configListener);
+    context.subscriptions.push(hideCommand, showCommand, configListener);
     
-    // Applica lo stato iniziale
+    // Apply initial state
     setTimeout(() => {
         if (isExtensionActive) {
             updateIconVisibility();
@@ -43,47 +39,33 @@ function activate(context) {
 }
 
 /**
- * Nasconde l'icona di VS Code impostando la configurazione
+ * Hides the VS Code icon by setting the configuration
  */
 function hideVSCodeIcon() {
     const config = vscode.workspace.getConfiguration('hideVSCodeIcon');
     config.update('enabled', true, vscode.ConfigurationTarget.Global).then(() => {
         vscode.window.showInformationMessage(
-            'Icona VS Code nascosta! Chiudi completamente VS Code e riaprilo per vedere le modifiche.',
+            'VS Code icon hidden! Close VS Code completely and reopen it to see the changes.',
             'OK'
         );
     });
 }
 
 /**
- * Mostra l'icona di VS Code impostando la configurazione
+ * Shows the VS Code icon by setting the configuration
  */
 function showVSCodeIcon() {
     const config = vscode.workspace.getConfiguration('hideVSCodeIcon');
     config.update('enabled', false, vscode.ConfigurationTarget.Global).then(() => {
         vscode.window.showInformationMessage(
-            'Icona VS Code ripristinata! Chiudi completamente VS Code e riaprilo per vedere le modifiche.',
+            'VS Code icon restored! Close VS Code completely and reopen it to see the changes.',
             'OK'
         );
     });
 }
 
 /**
- * Alterna la visibilità dell'icona
- */
-function toggleVSCodeIcon() {
-    const config = vscode.workspace.getConfiguration('hideVSCodeIcon');
-    const isEnabled = config.get('enabled', false);
-    
-    if (isEnabled) {
-        showVSCodeIcon();
-    } else {
-        hideVSCodeIcon();
-    }
-}
-
-/**
- * Aggiorna la visibilità dell'icona basandosi sulle impostazioni
+ * Updates icon visibility based on settings
  */
 function updateIconVisibility() {
     const config = vscode.workspace.getConfiguration('hideVSCodeIcon');
@@ -96,31 +78,31 @@ function updateIconVisibility() {
             removeHideCSS();
         }
     } catch (error) {
-        console.error('Errore nell\'aggiornamento visibilità icona:', error);
+        console.error('Error updating icon visibility:', error);
     }
 }
 
 /**
- * Inietta CSS per nascondere l'icona basandosi sulla configurazione
+ * Injects CSS to hide the icon based on configuration
  */
 function injectHideCSS() {
     try {
         const vscodePath = getVSCodeInstallPath();
         if (!vscodePath) {
-            console.log('Percorso di VS Code non trovato');
+            console.log('VS Code path not found');
             return false;
         }
         
         const cssPath = path.join(vscodePath, 'resources', 'app', 'out', 'vs', 'workbench', 'workbench.desktop.main.css');
         
         if (!fs.existsSync(cssPath)) {
-            console.log(`File CSS non trovato: ${cssPath}`);
+            console.log(`CSS file not found: ${cssPath}`);
             return false;
         }
         
         let cssContent = fs.readFileSync(cssPath, 'utf8');
         
-        // CSS rule per nascondere l'icona
+        // CSS rule to hide the icon
         const hideIconCSS = `
 /* HideVsIcon Extension - DO NOT EDIT */
 .monaco-workbench .part.titlebar .window-appicon,
@@ -145,27 +127,27 @@ div.window-appicon {
 }
 /* HideVsIcon Extension - END */`;
 
-        // Rimuovi CSS esistente
+        // Remove existing CSS
         const regex = /\/\* HideVsIcon Extension - DO NOT EDIT \*\/[\s\S]*?\/\* HideVsIcon Extension - END \*\//g;
         cssContent = cssContent.replace(regex, '');
         
-        // Aggiungi il nuovo CSS
+        // Add new CSS
         cssContent += hideIconCSS;
         
-        // Scrivi il file
+        // Write file
         fs.writeFileSync(cssPath, cssContent, 'utf8');
-        console.log('CSS per nascondere icona aggiunto');
+        console.log('CSS to hide icon added');
         
         return true;
         
     } catch (error) {
-        console.error('Errore nell\'iniezione CSS:', error);
+        console.error('Error injecting CSS:', error);
         return false;
     }
 }
 
 /**
- * Rimuove il CSS che nasconde l'icona
+ * Removes the CSS that hides the icon
  */
 function removeHideCSS() {
     try {
@@ -182,29 +164,29 @@ function removeHideCSS() {
 
         let cssContent = fs.readFileSync(cssPath, 'utf8');
 
-        // Rimuovi il blocco CSS dell'estensione
+        // Remove the extension's CSS block
         const regex = /\/\* HideVsIcon Extension - DO NOT EDIT \*\/[\s\S]*?\/\* HideVsIcon Extension - END \*\//g;
         const newContent = cssContent.replace(regex, '');
 
         if (newContent !== cssContent) {
             fs.writeFileSync(cssPath, newContent, 'utf8');
-            console.log('CSS per nascondere icona rimosso');
+            console.log('CSS to hide icon removed');
         }
 
         return true;
 
     } catch (error) {
-        console.error('Errore nella rimozione CSS:', error);
+        console.error('Error removing CSS:', error);
         return false;
     }
 }
 
 /**
- * Trova il percorso di installazione di VS Code
+ * Finds the VS Code installation path
  */
 function getVSCodeInstallPath() {
     const possiblePaths = [
-        // Windows - percorsi più comuni
+        // Windows - most common paths
         path.join(process.env.LOCALAPPDATA || '', 'Programs', 'Microsoft VS Code'),
         'C:\\Program Files\\Microsoft VS Code',
         'C:\\Program Files (x86)\\Microsoft VS Code',
@@ -223,22 +205,22 @@ function getVSCodeInstallPath() {
         if (possiblePath && fs.existsSync(possiblePath)) {
             const resourcesPath = path.join(possiblePath, 'resources');
             if (fs.existsSync(resourcesPath)) {
-                console.log(`Trovato percorso VS Code: ${possiblePath}`);
+                console.log(`Found VS Code path: ${possiblePath}`);
                 return possiblePath;
             }
         }
     }
     
-    console.log('Percorso di installazione VS Code non trovato');
+    console.log('VS Code installation path not found');
     return null;
 }
 
 /**
- * Disattiva l'estensione
+ * Deactivates the extension
  */
 function deactivate() {
     isExtensionActive = false;
-    console.log('HideVsIcon extension disattivata');
+    console.log('HideVsIcon extension deactivated');
 }
 
 module.exports = {
