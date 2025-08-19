@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.1] - 2025-08-19
+
+### 🌍 Changed
+- **Internationalization**: Complete translation to English for global marketplace
+- **Documentation**: Updated README.md with professional English documentation
+- **User Interface**: All commands, settings, and messages now in English
+- **Marketplace Ready**: Prepared for international VS Code Marketplace publication
+
 ## [1.0.0] - 2025-01-19
 
 ### ✨ Added

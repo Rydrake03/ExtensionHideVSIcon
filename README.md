@@ -1,5 +1,9 @@
 # Hide VS Code Icon
 
+<p align="center">
+  <img src="images/logo.png" alt="Hide VS Code Icon Logo" width="128" height="128">
+</p>
+
 A VS Code extension that hides the VS Code application icon from the top-left corner of the title bar.
 
 ## Features
@@ -12,14 +16,6 @@ A VS Code extension that hides the VS Code application icon from the top-left co
 ## How it works
 
 The extension modifies VS Code's CSS files to hide the application icon from the title bar, providing a cleaner interface.
-
-## Installation
-
-1. Clone or download this repository
-2. Open VS Code
-3. Go to Extensions (Ctrl+Shift+X)
-4. Click the three dots (...) and select "Install from VSIX..."
-5. Select the extension's `.vsix` file
 
 ## Available Commands
 
@@ -56,15 +52,6 @@ You can also control the icon visibility through VS Code settings:
 │   └── hide-appicon.css  # CSS rules to hide the icon
 └── README.md             # This file
 ```
-
-## Development
-
-To contribute or modify the extension:
-
-1. Clone the repository
-2. Install dependencies: `npm install`
-3. Open in VS Code
-4. Press `F5` to launch a new VS Code window with the extension loaded
 
 ## Troubleshooting
 

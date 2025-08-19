@@ -1,0 +1,18 @@
+LOGO SPECIFICATIONS FOR logo.png
+
+File: logo.png
+Size: 128x128 pixels
+Format: PNG with transparency support
+
+Design suggestions:
+- Blue gradient background (VS Code blue theme: #007ACC to #0098FF)
+- White icon representing "hiding" (like an eye with a slash through it)
+- Clean, modern design that represents the extension's purpose
+- High contrast for visibility in both light and dark themes
+
+The logo should represent:
+- VS Code extension (blue color scheme)
+- Hiding/concealing functionality (eye with slash, invisible symbol, etc.)
+- Clean and professional appearance for marketplace
+
+Once you create the logo.png file (128x128 pixels), place it in the images/ folder.
