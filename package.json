@@ -1,0 +1,70 @@
+{
+  "name": "hide-vscode-icon",
+  "displayName": "Hide VS Code Icon",
+  "description": "Nasconde l'icona di VS Code in alto a sinistra modificando direttamente il CSS",
+  "version": "1.0.0",
+  "publisher": "buldidev",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "Hide VS Code Icon",
+      "properties": {
+        "hideVSCodeIcon.enabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Nasconde l'icona di VS Code in alto a sinistra. Richiede riavvio completo di VS Code.",
+          "scope": "application"
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "hidevsicon.hide",
+        "title": "Nascondi Icona VS Code"
+      },
+      {
+        "command": "hidevsicon.show",
+        "title": "Mostra Icona VS Code"
+      },
+      {
+        "command": "hidevsicon.toggle",
+        "title": "Alterna Icona VS Code"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "hidevsicon.hide"
+        },
+        {
+          "command": "hidevsicon.show"
+        },
+        {
+          "command": "hidevsicon.toggle"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.74.0",
+    "@types/mocha": "^10.0.7",
+    "@types/node": "20.x",
+    "eslint": "^9.9.1",
+    "typescript": "^5.5.4",
+    "@vscode/test-cli": "^0.0.10"
+  }
+}
