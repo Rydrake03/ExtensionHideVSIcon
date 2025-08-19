@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.2] - 2025-08-19
+
+### ✨ Added
+- **Visual Identity**: Added professional logo (128x128 PNG) for marketplace
+- **Documentation**: Streamlined README.md by removing installation and development sections
+- **Marketplace Ready**: Enhanced presentation for better user experience
+
+### 🔧 Improved
+- Cleaner documentation focused on features and usage
+- Professional branding with custom logo
+- Simplified user guide
+
 ## [1.0.1] - 2025-08-19
 
 ### 🌍 Changed
